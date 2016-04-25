@@ -1,0 +1,127 @@
+<!DOCTYPE html>
+<html lang="zh">
+
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+
+    <title>提醒-选项</title>
+
+    <link href="reffers/bootstrap/css/bootstrap.min.css" rel="stylesheet">
+</head>
+
+<body>
+    <div class="container">
+        <div class="row">
+            <div class="col-md-10 col-md-offset-1">
+                <div class="page-header">
+                    <h1>提醒-选项</h1>
+                    <div class="btn-group">
+                        <button type="button" id="btnSave" class="btn btn-primary">
+                            <span class="glyphicon glyphicon-floppy-disk"></span>
+                            保存
+                        </button>
+                        <button type="button" id="btnNotifyTest" class="btn btn-default">
+                            <span class="glyphicon glyphicon-send"></span>
+                            通知测试
+                        </button>
+                        <button type="button" id="btnLoginTest" class="btn btn-default">
+                            <span class="glyphicon glyphicon-user"></span>
+                            登录测试
+                        </button>
+                        <button type="button" id="btnLog" class="btn btn-default">
+                            <span class="glyphicon glyphicon-comment"></span>
+                            日志
+                        </button>
+                        <button type="button" id="btnClose" class="btn btn-default">
+                            <span class="glyphicon glyphicon-remove"></span>
+                            关闭
+                        </button>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <div class="row">
+            <div class="col-md-6">
+                <div class="panel panel-primary">
+                    <div class="panel-heading">待办提醒</div>
+                    <div class="panel-body">
+                        <div class="row">
+                            <div class="col-md-6">
+                                <div class="input-group">
+                                    <span class="input-group-addon">监测词语：</span>
+                                    <input type="text" id="todo_keyword" class="form-control" placeholder="关键词">
+                                </div>
+                            </div>
+                            <div class="col-md-6">
+                                <div class="input-group">
+                                    <span class="input-group-addon">时间间隔：</span>
+                                    <input type="number" id="todo_interval" class="form-control text-right" placeholder="时间间隔">
+                                    <span class="input-group-addon">分钟</span>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="row">
+                            <div class="col-md-6">
+                                <div class="input-group">
+                                    <span class="input-group-addon">登录账号：</span>
+                                    <input type="text" name="userName" id="userName" class="form-control" placeholder="登录账号">
+                                </div>
+                            </div>
+                            <div class="col-md-6">
+                                <div class="input-group">
+                                    <span class="input-group-addon">登录密码：</span>
+                                    <input type="password" name="password" id="password" class="form-control" placeholder="登录密码">
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            <div class="col-md-6">
+                <div class="panel panel-primary">
+                    <div class="panel-heading">交警公告</div>
+                    <div class="panel-body">
+                        <div class="row">
+                            <div class="col-md-6">
+                                <div class="input-group">
+                                    <span class="input-group-addon">监测词语：</span>
+                                    <input type="text" id="anno_keyword" class="form-control" placeholder="关键词">
+                                </div>
+                            </div>
+                            <div class="col-md-6">
+                                <div class="input-group">
+                                    <span class="input-group-addon">时间间隔：</span>
+                                    <input type="number" id="anno_interval" class="form-control text-right" placeholder="时间间隔">
+                                    <span class="input-group-addon">分钟</span>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <div class="modal fade" id="msgbox" tabindex="-1" role="dialog" aria-labelledby="msgbox">
+        <div class="modal-dialog modal-sm">
+            <div class="modal-content">
+                <div class="modal-body">
+                    <div class="text-success">保存成功。</div>
+                </div>
+                <div class="modal-footer">
+                    <button type="button" class="btn btn-default" data-dismiss="modal">确定</button>
+                </div>
+            </div>
+        </div>
+    </div>
+
+
+    <script src="reffers/jquery-2.2.3.min.js"></script>
+    <script src="reffers/bootstrap/js/bootstrap.min.js"></script>
+    <script src="options.js"></script>
+</body>
+
+</html>

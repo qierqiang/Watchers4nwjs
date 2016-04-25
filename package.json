@@ -1,0 +1,15 @@
+{
+    "name": "提醒",
+    "main": "index.html",
+    "bg-script": "bg.js",
+    "window": {
+        "id": "index",
+        "toolbar": "false",
+        "icon": "images/icon.ico",
+        "width": 800,
+        "height": 600,
+        "show": false
+    },
+    "version": "1.0",
+    "show_in_taskbar": false
+}
