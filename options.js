@@ -1,3 +1,4 @@
+//var fs = require("fs");
 var cfg = require("./Config.js");
 var fileName = "options.json";
 
@@ -22,7 +23,14 @@ $("#btnNotifyTest").click(function () { //通知测试
     });
 });
 $("#btnLoginTest").click(function () {   //登录测试
-
+    var login = require("./AutoLogon.js");
+    login.ensureLoginComplete = function () { alert("done"); };
+    login.ensureLogin();
+    // // login.login();
+    // //login.httpTest();
+    // login.query();
+    //var anno = require("./anno_bg.js");
+    //anno.query();
 });
 $("#btnLog").click(function () {   //日志
     nw.Window.open("logs.html", { id: "logs", width: 800, height: 600 });
@@ -35,7 +43,7 @@ $("#btnClose").click(function () {   //关闭
 function loadConfig() {
     cfg.load(function (err, data) {
         if (err) {
-            alert(err);
+            logger.error(err);
         } else {
             $("#todo_keyword").val(data.todo_keyword);
             $("#todo_interval").val(data.todo_interval);

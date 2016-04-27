@@ -36,19 +36,19 @@ var formatNumber = function (n) {
 //往文件中追加日志内容
 var appendLog = function (dt, dd, cls) {
     var logContent = "<dt>" + dt + "</dt><dd class=\"" + cls + "\">" + dd + "</dd>\r\n";
-    fs.appendFile(fileName, logContent, (err) => { if (err) alert("err"); });
+    fs.appendFile(fileName, logContent, (err) => { if (err) logger.error("err"); });
 };
 
 //读取所有日志
 exports.readAll = function (callback) {
     fs.readFile(fileName, (err, data) => {
         if (err) {
-            alert(err);
+            logger.error(err);
         } else {
             try {
                 callback(data);
             } catch (ex) {
-                alert(ex);
+                logger.error(ex);
             }
         }
     });

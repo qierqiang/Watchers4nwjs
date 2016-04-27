@@ -21,7 +21,7 @@ $("#btnClear").click(function () {      //清空日志
     log.clearAll((err) => { });
 });
 $("#btnOptions").click(function () {      //选项
-    nw.Window.open("options.html", { id: "options", height: 480 });
+    nw.Window.open("options.html", { id: "options", height: 580 });
 });
 $("#btnClose").click(function () {        //关闭
     nw.Window.get().close();
