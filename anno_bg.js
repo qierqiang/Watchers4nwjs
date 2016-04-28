@@ -1,7 +1,8 @@
-var http = require("http");
+// var http = require("http");
 var fs = require("fs");
 var logger = require("./Logger.js");
 var cfg = require("./Config.js");
+var xhr = require("./xhr.js");
 var url = "http://www.hfjjzd.gov.cn/zhuzhan/jwgk/";
 var readListFile = "annoread.json";
 var allListFile = "annos.json";
@@ -29,21 +30,13 @@ exports.stop = function () {
 
 //查询页面内容
 exports.query = function () {
-    http.get(url, (res) => {
-        res.setEncoding('utf8');
-        var data = "";
-        res.on("data", function (trunk) {
-            data += trunk;
-        });
-        res.on("end", function () {
-            read(data);
-        });
-        res.on("error", function (err) {
-            logger.error(err);
-        });
-    }).on("error", function (err) {
-        logger.error(err);
-    });
+    try {
+        var data = xhr.get(url);
+        read(data);
+    }
+    catch (ex) {
+        logger.error(ex);
+    }
 };
 
 //读取页面内容

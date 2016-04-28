@@ -6,8 +6,8 @@ var _url = "http://172.18.18.18/hftpframe/ZHManageMis_HFZTB/MainPages/TP_Main_OA
 var isLogin = false;
 var timerId;
 var self = this;
-var keyword;
-var interval;
+exports.keyword;
+exports.interval;
 
 cfg.load(function (data) {
     keyword = data.todo_keyword;

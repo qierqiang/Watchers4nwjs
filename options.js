@@ -23,17 +23,20 @@ $("#btnNotifyTest").click(function () { //通知测试
     });
 });
 $("#btnQueryTest").click(function () {   //查询测试
-    // var login = require("./AutoLogin.js");
-    // login.login();
-
     var todo = require("./todo_bg.js");
     var anno = require("./anno_bg.js");
     cfg.load(function (data) {
         todo.start();
         anno.start();
-        //running = true;
-        //logger.normal("监控已启动");
     });
+
+    // var u = "http://www.bing.com/";
+
+    // var xhr = require("./xhr.js");
+    // // var data = xhr.get(u);
+    // // alert(data);
+
+    // xhr.getAsync(u, function (data) { alert(data); });
 });
 $("#btnLog").click(function () {   //日志
     nw.Window.open("logs.html", { id: "logs", width: 800, height: 600 });

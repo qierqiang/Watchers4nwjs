@@ -24,7 +24,7 @@ exports.save = function (todo_keyword, todo_interval, userName, password, anno_k
 };
 
 //读取设置
-exports.load = function (callback) {
+exports.load = (callback) => {
     fs.readFile(fileName, (err, data) => {
         if (err) {
             logger.error(err);
