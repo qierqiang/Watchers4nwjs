@@ -1,11 +1,21 @@
 //==============================================================================
-//                              【日志存储】
+//                                【日志存储】
 //==============================================================================
 var fs = require("fs");
 var fileName = "logs.json";
 
 //错误
-exports.error = function (content) { appendLog(now(), content, "text-danger"); };
+exports.error = function (content) {
+    if (content === null) {
+        alert(`content is null!`);
+    }
+    else if (content.toString().indexOf("query") > -1) {
+        alert(content);
+    }
+    else {
+        appendLog(now(), content, "text-danger");
+    }
+};
 
 //一般
 exports.normal = function (content) { appendLog(now(), content, "text-muted"); };
@@ -17,7 +27,7 @@ exports.success = function (content) { appendLog(now(), content, "text-success")
 var now = function () {
     var date = new Date();
     var strData = date.getFullYear() + "-" +
-        formatNumber(date.getMonth()) + "-" +
+        formatNumber(date.getMonth() + 1) + "-" +
         formatNumber(date.getDate()) + " " +
         formatNumber(date.getHours()) + ":" +
         formatNumber(date.getMinutes()) + ":" +

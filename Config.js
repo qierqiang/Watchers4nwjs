@@ -2,6 +2,7 @@
 //                              【设置存储】
 //==============================================================================
 var fs = require("fs");
+var logger = require("./Logger.js");
 var fileName = "options.json";
 
 //保存设置
@@ -26,13 +27,9 @@ exports.save = function (todo_keyword, todo_interval, userName, password, anno_k
 exports.load = function (callback) {
     fs.readFile(fileName, (err, data) => {
         if (err) {
-            callback(err);
+            logger.error(err);
         } else {
-            try {
-                callback(null, JSON.parse(data));
-            } catch (ex) {
-                callback(ex);
-            }
+            callback(JSON.parse(data));
         }
     });
 };

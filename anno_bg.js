@@ -1,19 +1,25 @@
 var http = require("http");
 var fs = require("fs");
 var logger = require("./Logger.js");
+var cfg = require("./Config.js");
 var url = "http://www.hfjjzd.gov.cn/zhuzhan/jwgk/";
 var readListFile = "annoread.json";
 var allListFile = "annos.json";
 var timerId;
+var self = this;
+var keyword = "";
+var interval = 0;
 
-exports.keyword = "";
-exports.interval = 0;
+cfg.load((data) => {
+    self.keyword = data.anno_keyword;
+    self.interval = parseInt(data.anno_interval);
+});
 
 //开始定时查询
 exports.start = function () {
-    this.stop();
-    this.query();
-    timerId = setInterval(query, this.interval * 60 * 1000);
+    self.stop();
+    self.query();
+    timerId = setInterval(self.query, self.interval * 60 * 1000);
 };
 
 //停止定时查询
@@ -54,47 +60,37 @@ var read = function (data) {
         var title = result.substr(tmp, result.indexOf("\"", tmp) - tmp);
         var item = { title: title, href: href };
         all.push(item);
-        if (title.indexOf(this.keyword) >= 0 && !isRead(href))
+    }
+
+    fs.readFile(readListFile, (err, tmp) => {
+        var sTmp = "";
+        if (!err) sTmp = tmp.toString();
+        sTmp.indexOf(href) >= 0
+        if (title.indexOf(this.keyword) >= 0 && sTmp.indexOf(href) < 0) {
             found.push(item);
-        // var words = this.keyword.toString().split(/,|;/);
-        // words.forEach(function (w) {
-        //     if (title.indexOf(w) >= 0 && !isRead(href))
-        //         found.push(item);
-        // }, this);
-    }
-    //保存查询结果
-    fs.writeFile(allListFile, JSON.stringify(all), (err) => {
-        logger.error(err);
-        return;
-    });
-    //提示关键词
-    if (found.length === 0) {
-        logger.success("查询交警支队警务公开信息完成。");
-        return;
-    }
-    var body = "";
-    found.forEach(function (item) {
-        body += `${item.title}\r\n`;
-        fs.appendFile(readListFile, `${JSON.stringify(item)},\r\n`, (err) => {
-            logger.error(err);
-            return;
-        });
-    }, this);
-    var n = new Notification(`查询交警支队警务公开信息。发现关键词“${this.keyword}”`, { body: body, icon: "images/trayicon_64.png" });
-    n.onclick = function () {
-        nw.Shell.openExternal(url);
-    };
-    logger.success(`查询交警支队警务公开信息。发现关键词“${this.keyword}”`);
-
-}
-
-//是否已读
-function isRead(href) {
-    fs.readFile(readListFile, (err, data) => {
-        if (err) {
-            logger.error(err);
-            return false;
         }
-        return data.toString().indexOf(href) >= 0;
+        //保存查询结果
+        fs.writeFile(allListFile, JSON.stringify(all), (err) => { if (err) logger.error(err); });
+        //提示关键词
+        if (found.length === 0) {
+            logger.success("查询交警公告完成。");
+            return;
+        }
+        var body = "";
+        found.forEach(function (item) {
+            body += `${item.title}\r\n`;
+            fs.appendFile(readListFile, `${JSON.stringify(item)},\r\n`, (err) => { if (err) logger.error(err); });
+        }, this);
+        var n = new Notification(`交警公告发现关键词“${this.keyword}”`, { body: body, icon: "images/trayicon_64.png" });
+        n.onclick = function () {
+            nw.Window.open("annos.html", { id: "annos" });
+            n.cancel();
+        };
+        logger.success(`交警公告发现关键词“${this.keyword}”`);
     });
+    // var words = this.keyword.toString().split(/,|;/);
+    // words.forEach(function (w) {
+    //     if (title.indexOf(w) >= 0 && !isRead(href))
+    //         found.push(item);
+    // }, this);
 }

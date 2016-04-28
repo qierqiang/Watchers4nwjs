@@ -17,9 +17,8 @@ window.onload = function () {
             $("#contents").html(`<center>${err}</center>`);
         } else {
             var arr = JSON.parse(data);
-            $("#contents").html();
 
-            cfg.load(function (err, config) {
+            cfg.load(function (config) {
                 arr.forEach(function (item) {
                     var badge = "";
                     if (item.title.indexOf(config.anno_keyword) >= 0) {

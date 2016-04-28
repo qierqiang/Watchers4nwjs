@@ -22,15 +22,18 @@ $("#btnNotifyTest").click(function () { //通知测试
         icon: "images/trayicon_64.png"
     });
 });
-$("#btnLoginTest").click(function () {   //登录测试
-    var login = require("./AutoLogon.js");
-    login.ensureLoginComplete = function () { alert("done"); };
-    login.ensureLogin();
-    // // login.login();
-    // //login.httpTest();
-    // login.query();
-    //var anno = require("./anno_bg.js");
-    //anno.query();
+$("#btnQueryTest").click(function () {   //查询测试
+    // var login = require("./AutoLogin.js");
+    // login.login();
+
+    var todo = require("./todo_bg.js");
+    var anno = require("./anno_bg.js");
+    cfg.load(function (data) {
+        todo.start();
+        anno.start();
+        //running = true;
+        //logger.normal("监控已启动");
+    });
 });
 $("#btnLog").click(function () {   //日志
     nw.Window.open("logs.html", { id: "logs", width: 800, height: 600 });
@@ -41,16 +44,12 @@ $("#btnClose").click(function () {   //关闭
 
 //加载设置
 function loadConfig() {
-    cfg.load(function (err, data) {
-        if (err) {
-            logger.error(err);
-        } else {
-            $("#todo_keyword").val(data.todo_keyword);
-            $("#todo_interval").val(data.todo_interval);
-            $("#userName").val(data.userName);
-            $("#password").val(data.password);
-            $("#anno_keyword").val(data.anno_keyword);
-            $("#anno_interval").val(data.anno_interval);
-        }
+    cfg.load(function (data) {
+        $("#todo_keyword").val(data.todo_keyword);
+        $("#todo_interval").val(data.todo_interval);
+        $("#userName").val(data.userName);
+        $("#password").val(data.password);
+        $("#anno_keyword").val(data.anno_keyword);
+        $("#anno_interval").val(data.anno_interval);
     });
 }

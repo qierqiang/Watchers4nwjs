@@ -6,7 +6,7 @@
 | anno_bg.js | 交警公告查询模块 |
 | annos.html | 交警公告查看页 |
 | annos.js | 交警公告查看页脚本 |
-| AutoLogon.js | 内网自动登录模块 |
+| AutoLogin.js | 内网自动登录模块 |
 | bg.js | 后台脚本 |
 | Config.js | 设置操作模块 |
 | index.html | 默认启动页（暂时无用） |
