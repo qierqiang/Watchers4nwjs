@@ -60,12 +60,12 @@ var running = false;
 //start();
 
 function start() {
-    cfg.load(function (data) {
+    //cfg.load(function (data) {
         todo.start();
-        anno.start();
+        //anno.start();
         running = true;
         logger.normal("监控已启动");
-    });
+    //});
 }
 
 function stop() {

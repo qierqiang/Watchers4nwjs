@@ -32,3 +32,15 @@ exports.postAsync = function (url, data, callback) {
     xhr.open("POST", url, false);
     xhr.send(data);
 }
+
+//读取网页的title
+exports.getHtmlTitle = (sHtml) => {
+    var regex   = /<title>*.<\/title>/;
+    var title   = regex.exec(sHtml);
+    var sTitle  = "";
+    if (title != null) {
+        var sTitle = title.toString();
+        sTitle = sTitle.substr(8, sTitle.indexOf("</title>") + 1);
+    }
+    return sTitle;
+}

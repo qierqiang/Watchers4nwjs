@@ -1,0 +1,390 @@
+
+
+<!DOCTYPE HTML>
+<html>
+<head><script type="text/javascript" src="/HFTPFrame/JavaScript/jquery-1.10.2.min.js" charset="UTF-8" language="javascript" ></script>
+<script type="text/javascript" src="/HFTPFrame/JavaScript/jquery.ui.js" charset="UTF-8" language="javascript" ></script>
+<script type="text/javascript" src="/HFTPFrame/JavaScript/CommonFunction.js" charset="UTF-8" language="javascript" ></script>
+<script type="text/javascript" src="/HFTPFrame/JavaScript/zDialog.js" charset="UTF-8" language="javascript" ></script>
+<script type="text/javascript" src="/HFTPFrame/JavaScript/zDrag.js" charset="UTF-8" language="javascript" ></script>
+<script type="text/javascript" src="/HFTPFrame/JavaScript/json2.js" charset="UTF-8" language="javascript" ></script>
+<script type="text/javascript" src="/HFTPFrame/JavaScript/CustomerFunction.js" charset="UTF-8" language="javascript" ></script>
+<script type="text/javascript" src="/HFTPFrame/FCKeditor/editor/plugins/flvPlayer/swfobject.js"></script>
+<script type="text/javascript" src="/HFTPFrame/JavaScript/OA/ComFun_OA8.js"></script>
+<link href="/HFTPFrame/Css/Main.css" rel="stylesheet" />
+<link href="/HFTPFrame/Css/Css.css" rel="stylesheet" />
+<link id="skinCss" href="/HFTPFrame/CSS/blue/Css.css" rel="stylesheet" />
+<title>
+	登录到安徽合肥公共资源交易中心业务管理平台
+</title><meta http-equiv="Content-Language" content="zh-cn" /><meta http-equiv="Content-Type" content="text/html; charset=gb2312" /><link href="Images/TP/login.css" rel="stylesheet" /><script type='text/javascript' defer='defer'> var $$ = function (id) { return (typeof (id) == 'object') ? id : document.getElementById(id); }
+var ErrorMsg = "CA类型不在支持范围内"; 
+var SignSn = ""; 
+var EncSn = ""; 
+var _Break = "true"; 
+function NoThisCa() {alert(ErrorMsg);throw (new Error(-1, ErrorMsg));}
+function ThrowEx(Msg) {if(_Break){alert(Msg);throw (new Error(-1, Msg));}else{}}
+function EpCaObj(NeedInitializtion,NeedBreak) {if(NeedBreak != undefined){_Break=NeedBreak;} if (NeedInitializtion) {if (!this.InitClientCert()) {ThrowEx("CA证书读取异常,请先插好CA锁!");}}}
+EpCaObj.prototype.CAType = '2';
+EpCaObj.prototype.MacAddress = function (type) {return $$('iWebOA').GetMac(type);}
+EpCaObj.prototype.IP = function () {return $$('iWebOA').GetIP();}
+EpCaObj.prototype.HostName = function () {return $$('iWebOA').GetPcName();}
+EpCaObj.prototype.HardID = function () {return $$('iWebOA').GetHardDeskID();}
+EpCaObj.prototype.InitClientCert = function () {return true;}
+EpCaObj.prototype.ClientSignCertSN = function () {try{ $$('DigitalSignOCX').SelectCert(1); return $$('DigitalSignOCX').GetCertSn(); }catch(ex){ThrowEx('读取证书序列号信息出现异常，请检查锁是否插好!');}}
+EpCaObj.prototype.ClientSignCertCN = function () {try{ $$('DigitalSignOCX').SelectCert(1); return $$('DigitalSignOCX').GetCertUnitName();}catch(ex){ThrowEx('读取使用者信息出现异常，请检查锁是否插好!');}}
+EpCaObj.prototype.SignCert = function () {try{ $$('DigitalSignOCX').SelectCert(1); return $$('DigitalSignOCX').GetCertConext();}catch(ex){ThrowEx('读取使用者信息出现异常，请检查锁是否插好!');}}
+EpCaObj.prototype.EncCert = function () {try{ $$('DigitalSignOCX').SelectCert(2); return $$('DigitalSignOCX').GetCertEncrypt();}catch(ex){ThrowEx('读取加密证书信息出现异常，请检查锁是否插好!');}}
+EpCaObj.prototype.DeviceNum = function () {try{ return $$('CFAx').ReadSerial(4);}catch(ex){ThrowEx('读取设备唯一标识符信息出现异常，请检查锁是否插好!');}}
+EpCaObj.prototype.CertSubjectKeyID = function () {try{ $$('DigitalSignOCX').SelectCert(2); return $$('DigitalSignOCX').GetCertKeyID();}catch(ex){ThrowEx('读取使用者密钥标识符信息出现异常，请检查锁是否插好!');}}
+EpCaObj.prototype.QianZhangInfo = function () {try{ return $$('CFAx').ReadSealInfo();}catch(ex){ThrowEx('读取签章信息出现异常，请检查锁是否插好!');}}
+EpCaObj.prototype.CertYouXiaoQi = function () {try{ return $$('DigitalSignOCX').GetCertValidDate();}catch(ex){ThrowEx('读取有效期信息出现异常，请检查锁是否插好!');}}
+EpCaObj.prototype.ReadQianZhangInfo = function (xh) {try{ return $$('CFAx').ReadInfoByType(xh);}catch(ex){ThrowEx('读取指定签章信息出现异常，请检查锁是否插好!');}}
+EpCaObj.prototype.SignData = function (OrgData) {try{ return $$('DigitalSignOCX').SignData(OrgData, '0');}catch(ex){ThrowEx('数据签名出现异常，请检查锁是否插好!');}}
+EpCaObj.prototype.VerifyData = function (OrgData, SingCerInfo, SinInfo) {try{ return ($$('DSVerifyOCX').DataVerify(OrgData, SingCerInfo, SinInfo, 0, '', 0, 1) == '1');}catch(ex){ThrowEx('数据验签出现异常!');}}
+EpCaObj.prototype.SignFile = function (FilePath) {try{ return $$('DigitalSignOCX').SignFile(FilePath, '0');}catch(ex){ThrowEx('数据签名出现异常，请检查锁是否插好!');}}
+EpCaObj.prototype.VerifyFile = function (FilePath, SingCerInfo, SignInfo) {try{ return ($$('DSVerifyOCX').FileVerify(FilePath, SingCerInfo, SignInfo, 0, '', 0, 1) == '1');}catch(ex){ThrowEx('文件验签出现异常!');}}
+EpCaObj.prototype.Encrypt = function (OrgData) {try{ return $$('EncryptOCX').GetEnCryptSK(OrgData);}catch(ex){ThrowEx('加密出现异常，请检查锁是否插好!');}}
+EpCaObj.prototype.Decrypt = function (JiaMiData) {try{ return $$('DeCryptOCX').GetDeCryptSK(JiaMiData);}catch(ex){ThrowEx('解密过程出现异常，可能的原因：'+ex.description);}}
+EpCaObj.prototype.Bfjg = function () {return 'O = CFCA Operation CA2. C = CN';}
+EpCaObj.prototype.CheckPin = function (pwd) {return $$('iWebOA').CheckUserPin(1, pwd, 'CIDC Cryptographic Service Provider For CFCA v1.0');}
+ </script> 
+<script src="/HFTPFrame/WebResource.axd?d=3O9oA2ZZv9FZK7lDopomwZ967KaDTeqYsZZMKmqGxnjyy-ZnuG9rJ3X7k9qB1DhCNN1qdXb3S85DPN1zGVG_bCvir0uiIz2-WVEakvS2n-tshBuV1nzbYpDNYFd25MpTEoJYn5c-IgEOVfHgwRKQXRyIuPlSUlunhqhldm1L4A5tuesT0&t=635417037693666144" type="text/javascript" SourceControl="EpointCommon" ></script> 
+
+<script src="/HFTPFrame/WebResource.axd?d=h7GoCGK3Vt6hUWsVyc-LgLTCD5iBA0w4jFBZryGFoXkYNshmEUX0EDYGetjEW7MDROM8MMSrkCrdDxV1mlt0IIc0j_suFJOhVVERUUVOk6yoW6PBzXiGvnuyac-WVro8dCnGDFG99OvRBYGrCBceipIvJCV6epizFxh3nAkNiHQFKWDn0&t=635417037693666144" type="text/javascript" SourceControl="EpointTextBox" ></script> 
+</head>
+<body style="overflow: auto;">
+    <script type="text/javascript">
+        $(function () {
+            init();
+
+            $("#txtPwd").keypress(function (e) {
+                var c = e.keyCode || e.which;
+                var s = e.shiftKey;
+                if (((c >= 65 && c <= 90) && !s) || ((c >= 97 && c <= 122) && s)) {
+                    $('#login_password_error').css("display", "block");
+                    $('#login_password_error').html($("#capslockopen").html());
+                }
+                else {
+                    $('#login_password_error').css("display", "none");
+                }
+            });
+        });
+
+        //隐藏密码错误提示
+        function hideInfo() {
+            $('#login_password_error').css("display", "none");
+        }
+
+        function init() {
+            $(".LoginMain").height($(document).height());
+            $("#UpdatePanel2").height('100%');
+            $(window).resize(function () {
+                $(".LoginMain").height($(document).height());
+            });
+
+            $(".logininfo").click(function () {
+                $(this).next().find("INPUT").focus();
+            });
+            $(".input").find("INPUT")
+                .focus(function () {
+                    $(this).parent().prev().hide();
+                })
+                .keypress(function () {
+                    $(this).parent().prev().hide();
+                })
+                .blur(function () {
+                    if ($(this).val().trim() == "") {
+                        $(this).val("").parent().prev().show();
+                    }
+                    else
+                        $(this).parent().prev().hide();
+                })
+            setTimeout(function () { _checkInput(); }, 500);
+
+            function _checkInput() {
+                $(".input").find("INPUT").each(function () {
+                    if ($(this).val().trim() == "")
+                        $(this).val("").prev().show();
+                    else
+                        $(this).prev().hide();
+                })
+            }
+
+            $(".LoginType").children().click(function () {
+                document.getElementById("usbkeycode").value = "";
+                var choseindex = $(this).index();
+                $(".LoginType").children().each(function () {
+                    if ($(this).index() == choseindex) {
+                        $(this).removeClass("UnActiveTab");
+                        $(this).addClass("ActiveTab");
+                    }
+                    else {
+                        $(this).removeClass("ActiveTab");
+                        $(this).addClass("UnActiveTab");
+                    }
+                });
+
+                if ($(this).index() == 0) {
+                    $(".loginid").show();
+                    $("#Container").height(290);
+                    if ($("#txtPwd").value != "") {
+                        $("#txtPwd").focus();
+                    }
+                    else {
+                        $("#txtUserName").focus();
+                    }
+                }
+                else {
+                    $(".loginid").hide();
+                    $("#Container").height(220);
+                    $("#txtPwd").focus();
+                }
+            });
+            }
+    </script>
+    <form name="Form1" method="post" action="login_TP.aspx?ReturnUrl=%2fhftpframe%2fZHManageMis_HFZTB%2fPages%2fTodayDuty%2fTodayDuty_Detail.aspx" onsubmit="javascript:return WebForm_OnSubmit();" id="Form1">
+<div>
+<input type="hidden" name="__EVENTTARGET" id="__EVENTTARGET" value="" />
+<input type="hidden" name="__EVENTARGUMENT" id="__EVENTARGUMENT" value="" />
+<input type="hidden" name="__VIEWSTATE" id="__VIEWSTATE" value="/wEPDwUKLTI4MTk3Njk1Mw8WCh4PX19BbnRpWHNyZlRva2VuBSBmMzliMDJjNTExYTE0ODFjOTdmMDBmMDJhNTlhNjk4OR4SX19BbnRpWHNyZlVzZXJOYW1lZR4PTG9naW5FcnJvclRpbWVzZh4FVGl0bGUFNuWuieW+veWQiOiCpeWFrOWFsei1hOa6kOS6pOaYk+S4reW/g+S4muWKoeeuoeeQhuW5s+WPsB4QVXNlcktleV9QYWdlTG9hZGUWAgIDD2QWAmYPZBYCAgMPZBYCZg9kFgICEQ8PFgIeBFRleHQFBHFpZXFkZGQWWJZ0MV5MlJxB0+UatQ9q7a03cg==" />
+</div>
+
+<script type="text/javascript">
+//<![CDATA[
+var theForm = document.forms['Form1'];
+if (!theForm) {
+    theForm = document.Form1;
+}
+function __doPostBack(eventTarget, eventArgument) {
+    if (!theForm.onsubmit || (theForm.onsubmit() != false)) {
+        theForm.__EVENTTARGET.value = eventTarget;
+        theForm.__EVENTARGUMENT.value = eventArgument;
+        theForm.submit();
+    }
+}
+//]]>
+</script>
+
+
+<script src="/HFTPFrame/WebResource.axd?d=SqZa8GYeN-voTRZ-GMsb11KKLzsM4GjYxTGAXg23ajVoLdblDojATKR_7aSBdwvGYc1HUN_gkQjb5mtE0&amp;t=635521610826183812" type="text/javascript"></script>
+
+
+<script src="/HFTPFrame/ScriptResource.axd?d=tXLfunT4o-8eXBrgz0zbz6VGNcVlx3_WV72KnXtRDoDJffgiFNY715rH30LM_jymmutD-ydkmHc5x2DuRJ7-fN9L3qAU0yzFhZUHJ8oGBLsNgPUj5HmxwqsrMh7tJMNiaPgZo93XGjdySPA-1fdGzfXkU4VXpz3zRptZcg2&amp;t=348b0da" type="text/javascript"></script>
+<script type="text/javascript">
+//<![CDATA[
+if (typeof(Sys) === 'undefined') throw new Error('ASP.NET Ajax client-side framework failed to load.');
+//]]>
+</script>
+
+<script src="/HFTPFrame/ScriptResource.axd?d=ur6R3jW-qWfMO7RuOTSMXkO0fyl5TkuHA_u73euoMRN57VjJqi7Bc4_Ga_TxgDkZoNRqHeFo_MIsqOuKfgav5oCKb6R6dT1eTqpU_4ufX2xZoDbBjWInWFtuM2SrU_QCUFXtkEoQnxiL4NfZuAbxHysgxUR8AkXwdgNEufneausEP0e_0&amp;t=348b0da" type="text/javascript"></script>
+<script src="../JavaScript/MicrosoftAjax4.js" type="text/javascript"></script>
+<script src="../JavaScript/MicrosoftAjaxWebForms4.js" type="text/javascript"></script>
+<script type="text/javascript">
+//<![CDATA[
+function WebForm_OnSubmit() {
+if(!Epoint_ValidTextBox()) return false;
+return true;
+}
+//]]>
+</script>
+
+<div>
+
+	<input type="hidden" name="__EVENTVALIDATION" id="__EVENTVALIDATION" value="/wEdAAsW3+Cu8djqRa5XvZ1ONDh1EVY5u54TgWwyd97xcy3QiqUyVhErd+Q+WA5NmkAG8aG7uf+mGOLRGpOtBg7mGmNnr/mBQWjGf8X+aqb387iRrn+It9Ifo1lfmzwOIIGaW1nkXVs84NlnabZFTCCWmioAgPPljozsGPwprDBn4pNMpmN6ZYJNGAQHn0c9zMgZU3Az0pbtemMeEG4g1PnXXStToB1sXhjFVfRWXiyFQITYSGnDKKFn3hEHI4TpJP4pLsrKHih1" />
+</div>
+        <script type="text/javascript">
+//<![CDATA[
+Sys.WebForms.PageRequestManager._initialize('ScriptManager1', 'Form1', ['tUpdatePanel2',''], [], [], 90, '');
+//]]>
+</script>
+
+        <div id="UpdatePanel2">
+	
+                <div style="display: none">
+                    <input name="txtMessage" type="text" id="txtMessage" />
+                    <input name="usbkeycode" type="text" id="usbkeycode" />
+                    <input name="UserMacAddress" type="text" value="未知" id="UserMacAddress" />
+                    <input name="UserIP" type="text" value="未知" id="UserIP" />
+                    <input name="UserHostName" type="text" value="未知" id="UserHostName" />
+                    <input name="UserHardID" type="text" value="未知" id="UserHardID" />
+                    <input name="txtClientTime" type="text" id="txtClientTime" />
+                    <span id="EpCa1"><div><object classid='clsid:219D9F1F-DE00-4C5C-82E9-E8CBAA79CB6D' width='0' height='0' id='iWebOA'></object><object classid='clsid:5E15EC85-8A67-4420-A8BC-4E0D0FEF58AA' height='0' width='0' id='DigitalSignOCX' ></object>
+<object classid='clsid:1251A5BD-8972-47E8-8BBC-78C70EAF12A6' height='0' width='0' id='DSVerifyOCX'  ></object>
+<object classid='clsid:0316BA2A-ED6C-45A3-996C-407E44976EAE' height='0' width='0' id='EncryptOCX'  ></object>
+<object classid='clsid:701E42AC-2274-4703-8CE4-68D74C61315C' height='0' width='0' id='DeCryptOCX'  ></object>
+<object classid='clsid:172D96D5-E22E-4029-81FB-B9294A899AFA' height='0' width='0' id='CFAx'  ></object>
+ <script language='vbscript' type='text/vbscript' id='clientEventHandlersVBS'> 
+    function ReadBlueKey() 
+        on error resume next 
+        dim a,b,mylen 
+        dim ret,aObject,DevicePath 
+        set aObject = CreateObject("Syunew3A.s_simnew3") 
+        DevicePath = aObject.FindPort(0) 
+        if aObject.LastError<> 0 then 
+            msgbox "未发现加密锁(或加密锁驱动未安装)，请插入加密锁或重新安装驱动!" 
+            ReadBlueKey = "" 
+            exit function 
+        end if 
+        a=aObject.GetID_1(DevicePath) 
+        b=aObject.GetID_2(DevicePath) 
+        ReadBlueKey = hex(a)+hex(b) 
+    end function 
+ </script> 
+</div></span>
+                </div>
+
+                <div id="header" class="bg4"></div>
+
+                <div id="main" class="bg5">
+                    <div class="input">
+                        <div class="tab">
+                            <ul>
+                                <li class="til current">用户名登录</li>
+                                <li class="til" style="display: none;">CA登录</li>
+                            </ul>
+                        </div>
+                        <div class="content">
+                            <div class="text1">
+                                <div class="TextboxContainer">
+		<input class="inputtxt" name="txtUserName" type="text" value="qieq" id="txtUserName" tabindex="1" class="inputtxt" placeholder="请输入用户名" /><div class="clearboth">
+
+		</div>
+	</div>
+                            </div>
+                            <div class="text2">
+                                <div class="TextboxContainer">
+		<input class="inputtxt" name="txtPwd" type="password" id="txtPwd" tabindex="2" class="inputtxt" placeholder="请输入密码" onblur="hideInfo();" /><div class="clearboth">
+
+		</div>
+	</div>
+                                <span class="error" id="login_password_error" style="display: none"></span>
+                                <span id="capslockopen" class="error" style="display: none">
+                                    <b>大写锁定已打开</b></span>
+                            </div>
+                            <div class="btn">
+                                <input type="submit" name="Imagebutton1" value="" onclick="return checkMes();" id="Imagebutton1" tabindex="3" class="btn1" onFocus="if(this.blur) this.blur();" />
+                                <div class="link"><a href="#">驱动下载</a></div>
+                            </div>
+                            <div class="content" style="display: none;">
+                                <div class="btn p1">
+                                    <input type="button" value="" class="btn2" />
+                                </div>
+                                <p class="note">
+                                    注意事项：第一次使用本系统时要安装加密锁驱动程序，<br />
+                                    点击下载后安装
+                                </p>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                <div id="footer">技术支持：江苏国泰新点软件有限公司</div>
+                <div class="LoginMain" style="display: none;">
+                    <div id="divLoginCenter" class="LoginCenter">
+                        <div class="top"></div>
+                        <div class="body">
+                            <div class="SystemName"></div>
+                            <div class="LoginWrapper" id="LoginWrapper">
+                                <div class="LoginContainer" id="Container">
+                                    <div id="divLoginType" class="LoginType">
+                                        <div class="ActiveTab Pos1" id="userLogin">
+                                            用户名登录
+                                        </div>
+                                        <div class="UnActiveTab Pos2" id="CALogin">
+                                            CA登录
+                                        </div>
+                                    </div>
+                                    <div class="AutoHeight" id="AutoHeight">
+                                        <div class="input">
+                                            <div class="loginid">
+                                                <div class="logininfo">请输入用户名</div>
+
+                                            </div>
+                                            <div class="password">
+                                                <div class="logininfo">请输入密码</div>
+
+                                            </div>
+                                            <div class="button">
+                                            </div>
+                                        </div>
+                                    </div>
+                                    <div class="otherinfo">
+                                        <div class="icron">
+                                            <img alt="" src="images/TP/Image/DownLoad.png" onclick="window.open('../DownLoad/HFControl.exe');" />
+                                        </div>
+                                        <div class="download">
+                                            <a href='../DownLoad/HFControl.exe' style="color: #999999">驱动下载</a>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="bottom">
+                            <div class="Support">
+                                技术支持：<a style="color: #333" href="#" onclick="window.open('http://www.epoint.com.cn')">江苏国泰新点软件有限公司</a>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+            
+</div>
+    
+
+<script type="text/javascript">
+//<![CDATA[
+Init_NormalText({Id:"txtUserName",Msg:"",ToolTipOpt:{}});Init_NormalText({Id:"txtPwd",Msg:"",ToolTipOpt:{}});//]]>
+</script>
+</form>
+    <script type="text/javascript" defer="defer">
+        function checkMes() {
+            var obj = '';
+            var myDate = new Date();
+            var CTime = myDate.getFullYear() + "-" + (myDate.getMonth() + 1) + "-" + myDate.getDate() + " " + myDate.getHours() + ":" + myDate.getMinutes() + ":" + myDate.getSeconds();
+            document.getElementById("txtClientTime").value = CTime;
+
+            try {
+                if ($("#userLogin").hasClass("ActiveTab")) {
+                    var uname = document.getElementById("txtUserName").value;
+                    if (uname == '') {
+                        epoint.dialog.warn('系统不能完成您的登录请求，请输入用户名!');
+                        return false;
+                    }
+                }
+                else {
+                    obj = new EpCaObj(true);
+                    document.getElementById("usbkeycode").value = obj.ClientSignCertSN();
+                    if (document.getElementById("usbkeycode").value == null || document.getElementById("usbkeycode").value == "") {
+                        epoint.dialog.warn('证书号未能获取，请检查锁以及驱动！');
+                        return false;
+                    }
+                    document.getElementById("txtMessage").value = obj.CheckPin(pwd);
+                }
+                var pwd = document.getElementById("txtPwd").value;
+                if (pwd == '') {
+                    epoint.dialog.warn('系统不能完成您的登录请求，请输入密码!');
+                    return false;
+                }
+
+                document.getElementById("UserIP").value = obj.IP();
+                document.getElementById("UserHostName").value = obj.HostName();
+                document.getElementById("UserHardID").value = obj.HardID();
+                document.getElementById("UserMacAddress").value = obj.MacAddress(-1);
+            }
+            catch (ex) {
+            }
+            return true;
+        }
+    </script>
+    <script type="text/javascript">
+        function focus() {
+            if (document.getElementById("txtUserName") != "") {
+                document.getElementById("txtPwd").focus();
+            }
+            else {
+                document.getElementById("txtUserName").focus();
+            }
+        }
+        focus();
+    </script>
+</body>
+</html>

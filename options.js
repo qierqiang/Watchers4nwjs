@@ -1,4 +1,4 @@
-//var fs = require("fs");
+var fs = require("fs");
 var cfg = require("./Config.js");
 var fileName = "options.json";
 
@@ -23,18 +23,36 @@ $("#btnNotifyTest").click(function () { //通知测试
     });
 });
 $("#btnQueryTest").click(function () {   //查询测试
-    var todo = require("./todo_bg.js");
-    var anno = require("./anno_bg.js");
-    cfg.load(function (data) {
-        todo.start();
-        anno.start();
-    });
+    // var todo = require("./todo_bg.js");
+    // var anno = require("./anno_bg.js");
+    // cfg.load(function (data) {
+    //     todo.start();
+    //     anno.start();
+    // });
+    
+    
+    
+    
+    
 
-    // var u = "http://www.bing.com/";
+    var login = require("./AutoLogin.js");
+    login.login();
+    
+    // var u = "http://172.18.18.18/hftpframe/ZHManageMis_HFZTB/Pages/TodayDuty/TodayDuty_Detail.aspx";
 
-    // var xhr = require("./xhr.js");
-    // // var data = xhr.get(u);
-    // // alert(data);
+    var x = require("./xhr.js");
+    
+var _data = "{\"BaseOUGuid\": \"-1\",\"UserGuid\": \"8623cf12-b066-4dab-9d33-0a89e331a1d0\"}";
+var _url = "http://172.18.18.18/hftpframe/ZHManageMis_HFZTB/MainPages/TP_Main_OA/TP_Main_OA.aspx/GetMissionContent";
+
+alert(x.post(_url, _data));
+    
+    
+    
+    // // var xh = x.xhr;
+    // var data = x.get(u);
+    // //alert(data);
+    // fs.writeFile("a.html", data);
 
     // xhr.getAsync(u, function (data) { alert(data); });
 });

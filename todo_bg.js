@@ -10,8 +10,8 @@ exports.keyword;
 exports.interval;
 
 cfg.load(function (data) {
-    keyword = data.todo_keyword;
-    interval = parseInt(data.todo_interval);
+    this.keyword = data.todo_keyword;
+    this.interval = parseInt(data.todo_interval);
 });
 
 exports.start = function () {
