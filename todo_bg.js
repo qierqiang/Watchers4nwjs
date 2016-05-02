@@ -1,3 +1,4 @@
+"use strict"
 var logger = require("./Logger.js");
 var autoLogin = require("./AutoLogin.js");
 var cfg = require("./Config.js");

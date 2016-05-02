@@ -1,14 +1,12 @@
 //==============================================================================
 //                                 全局变量
 //==============================================================================
+"use strict"
 var gui = require('nw.gui');
 var app = gui.App;
 var fs = require("fs");
-var cfg = require("./Config.js");
-var todo = require("./todo_bg.js");
-var anno = require("./anno_bg.js");
-var logger = require("./Logger.js");
-var login = require("./AutoLogin.js");
+var Logger = require("./modules/Logger.js");
+var Config = require("./modules/Config.js");
 
 //==============================================================================
 //                           【托盘】 图标、菜单
@@ -46,31 +44,29 @@ menu.append(menuQuit);
 
 tray.menu = menu;
 
-//==============================================================================
-//                                     监控
-//==============================================================================
-var watcher = fs.watch("options.json", { persistent: true, recursive: false }, function (ev, fileName) {
-    if (ev == "change" && running) {
-        stop();
-        start();
-    }
-});
+// //==============================================================================
+// //                                     监控
+// //==============================================================================
+// var watcher = fs.watch("options.json", { persistent: true, recursive: false }, function (ev, fileName) {
+//     if (ev == "change" && running) {
+//         stop();
+//         start();
+//     }
+// });
 
-var running = false;
-//start();
+// var running = false;
+// start();
 
-function start() {
-    //cfg.load(function (data) {
-        todo.start();
-        //anno.start();
-        running = true;
-        logger.normal("监控已启动");
-    //});
-}
+// function start() {
+//     //todo.start();
+//     anno.start();
+//     running = true;
+//     global.cfg.normal("监控已启动");
+// }
 
-function stop() {
-    todo.stop();
-    anno.stop();
-    running = false;
-    logger.normal("监控已停止");
-}
+// function stop() {
+//     //todo.stop();
+//     anno.stop();
+//     running = false;
+//     global.cfg.normal("监控已停止");
+// }
